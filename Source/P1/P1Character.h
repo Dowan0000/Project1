@@ -44,6 +44,10 @@ class AP1Character : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Build, meta = (AllowPrivateAccess = "true"))
+	bool bIsBuilding;
+
+	
 public:
 	AP1Character();
 	
@@ -63,6 +67,10 @@ protected:
 	
 	// To add mapping context
 	virtual void BeginPlay();
+
+protected:
+	UFUNCTION(BlueprintNativeEvent)
+	void LookOnBuilding(FVector2D Vector2D);
 
 public:
 	/** Returns CameraBoom subobject **/

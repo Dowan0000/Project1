@@ -16,7 +16,8 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 //////////////////////////////////////////////////////////////////////////
 // AP1Character
 
-AP1Character::AP1Character()
+AP1Character::AP1Character() : 
+	bIsBuilding(false)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -95,6 +96,9 @@ void AP1Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AP1Character::Move(const FInputActionValue& Value)
 {
+	if (bIsBuilding)
+		return;
+
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -121,10 +125,20 @@ void AP1Character::Look(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
+	if (bIsBuilding)
+	{
+		LookOnBuilding(LookAxisVector);
+		return;
+	}
+
 	if (Controller != nullptr)
 	{
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AP1Character::LookOnBuilding_Implementation(FVector2D Vector2D)
+{
 }
